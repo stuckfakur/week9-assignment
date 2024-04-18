@@ -6,21 +6,38 @@ interface ButtonProps {
   type?: 'button' | 'submit'
   onClick?: any
   disabled?: boolean
+  aria?: string
 }
 
-const Button: React.FC<ButtonProps> = ({ children, className = 'bg-teal-400', type = 'button', disabled, ...props }) => {
-  function colorBtn() {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  className,
+  type = 'button',
+  disabled,
+  aria,
+  ...props
+}) => {
+  function colorBtn(ariaLabel?: string) {
     switch (true) {
       case disabled:
         return 'bg-slate-400 opacity-30 text-slate-500'
+      case ariaLabel === 'btnSelect':
+        return 'bg-blue-600 focus:bg-blue-800 hover:bg-blue-800'
       case type === 'button':
-        return 'bg-teal-400 focus:bg-teal-800'
+        return 'bg-teal-400 focus:bg-teal-800 hover:bg-teal-800'
       case type === 'submit':
-        return 'bg-blue-600 focus:bg-blue-800'
+        return 'bg-blue-600 focus:bg-blue-800 hover:bg-blue-800'
+      default:
+        return ''
     }
   }
   return (
-    <button type={type} className={`mx-1 mt-4 ${colorBtn()} rounded-md px-4 py-2 font-medium text-white ${className}`} {...props}>
+    <button
+      type={type}
+      className={`mx-1 mt-4 ${colorBtn(aria)} rounded-md px-4 py-2 font-medium text-white ${className}`}
+      aria-label={aria}
+      {...props}
+    >
       {children}
     </button>
   )
