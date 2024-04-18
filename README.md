@@ -2,29 +2,16 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## How to run this project on your device
+1. You need to have git installed on your machine.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Clone this project by running the following command in your terminal:
+<br> ```git clone beno-cp-week9 https://github.com/RevoU-FSSE-4/Module-4-team1-beno.git```
+3. Navigate to the cloned project folder by running:
+<br> ```cd beno-cp-week9```
+4. Install the required modules using pnpm with the command:
+<br>```pnpm install```
+<br><i>*If you encounter any issues running `pnpm install`, make sure you have pnpm installed globally by running: ```npm install -g pnpm```
+5. Start the project by running:
+<br> ```pnpm run dev```
+6. Your project should now be up and running. Enjoy!
