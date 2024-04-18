@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form'
 import LabelInput from '../Elements/LabelInput/LabelInput'
 import ButtonRegister from './ButtonRegister'
 
-import { handleNext, handleBack } from '../Atoms/Function/HandleNextBack'
+import { handleBack, handleNext } from '../Atoms/Function/HandleNextBack'
+import { useLocalStorageRegister as UseLCR } from '../Atoms/Function/getLocalStorageRegister.tsx'
 
 interface FormRegisterStep2Props {
   onNext?: () => void
@@ -21,16 +22,20 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
     setValue,
   } = useForm()
 
+  UseLCR({ setValue, keys: 'formRegisterStep2' })
+
   const onSubmit = (data: any) => {
+    UseLCR({ data, keys: 'formRegisterStep2' })
     console.log(data)
     if (onNext) {
       onNext()
     }
   }
+  const postalCodeRegex = /^\d{5}$/
 
   function handlePostalCode(e: React.ChangeEvent<HTMLInputElement>) {
     const postalCode = e.target.value
-    if (!postalCode.match(/^\d{5}$/)) {
+    if (!postalCode.match(postalCodeRegex)) {
       e.target.setCustomValidity(
         'Please enter valid postal code, only number and must be 5 digit allowed',
       )
@@ -39,8 +44,6 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
     }
     setValue('zipCode', postalCode)
   }
-
-  const postalCodeRegex = /^\d{5}$/
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -86,7 +89,6 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
           register={register}
           error={errors.zipCode}
           errorMessage="Kode pos wajib diisi"
-          pattern={postalCodeRegex}
           onChange={handlePostalCode}
         />
       </div>

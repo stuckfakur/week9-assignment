@@ -69,6 +69,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
       </div>
       {id.includes('assword') && (
         <button
+          type="button"
           onClick={toggle}
           className="absolute right-2 top-8 aspect-square h-8 border"
         >

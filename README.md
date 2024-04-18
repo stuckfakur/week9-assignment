@@ -11,7 +11,7 @@ This template provides a minimal setup to get React working in Vite with HMR and
 <br> ```cd beno-cp-week9```
 4. Install the required modules using pnpm with the command:
 <br>```pnpm install```
-<br><i>*If you encounter any issues running `pnpm install`, make sure you have pnpm installed globally by running: ```npm install -g pnpm```
+<br><i>*If you encounter any issues running `pnpm install`, make sure you have pnpm installed globally by running: ```npm install -g pnpm```</i>
 5. Start the project by running:
 <br> ```pnpm run dev```
 6. Your project should now be up and running. Enjoy!

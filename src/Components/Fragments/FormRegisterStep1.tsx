@@ -4,6 +4,7 @@ import LabelInput from '../Elements/LabelInput/LabelInput'
 import ButtonRegister from './ButtonRegister'
 
 import { handleNext } from '../Atoms/Function/HandleNextBack'
+import { useLocalStorageRegister as UseLCR } from '../Atoms/Function/getLocalStorageRegister.tsx'
 
 interface FormRegisterStep1Props {
   onNext?: () => void
@@ -14,11 +15,14 @@ const FormRegisterStep1: React.FC<FormRegisterStep1Props> = ({ onNext }) => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
 
+  UseLCR({ setValue, keys: 'formRegistrasiStep1' })
   const patternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
   const onSubmit = (data: any) => {
+    UseLCR({ data, keys: 'formRegistrasiStep1' })
     console.log(data)
     if (onNext) {
       onNext()

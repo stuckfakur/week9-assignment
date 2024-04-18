@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import LabelInput from '../Elements/LabelInput/LabelInput'
 import ButtonRegister from './ButtonRegister'
 import { handleBack } from '../Atoms/Function/HandleNextBack'
+import { useLocalStorageRegister as UseLCR } from '../Atoms/Function/getLocalStorageRegister.tsx'
 
 interface FormRegisterStep3Props {
   onBack?: () => void
@@ -14,13 +15,17 @@ const FormRegisterStep3: React.FC<FormRegisterStep3Props> = ({ onBack }) => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm()
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
 
+  UseLCR({ setValue, keys: 'formRegisterStep3' })
+
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/
 
   const onSubmit = (data: any) => {
+    UseLCR({ data, keys: 'formRegisterStep3' })
     console.log(data)
     alert('successful create account')
     navigate('/login')
@@ -39,6 +44,7 @@ const FormRegisterStep3: React.FC<FormRegisterStep3Props> = ({ onBack }) => {
     } else {
       input.setCustomValidity('')
     }
+    e.preventDefault()
   }
 
   function handleConfirmPassword(e: React.ChangeEvent<HTMLInputElement>) {
