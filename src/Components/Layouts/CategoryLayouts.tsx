@@ -6,17 +6,19 @@ import { useNavigate } from 'react-router-dom'
 const CategoryLayout: React.FC = () => {
   const navigate = useNavigate()
   return (
-    <div className="px-12 py-4">
-      <div className="my-2 flex justify-end">
-        <Button
-          onClick={() => {
-            navigate('/category/create')
-          }}
-        >
-          Tambah
-        </Button>
+    <div className="flex justify-center px-12 py-4">
+      <div className="w-full md:w-full lg:w-3/4">
+        <div className="my-2 flex justify-end">
+          <Button
+            onClick={() => {
+              navigate('/category/create')
+            }}
+          >
+            Tambah
+          </Button>
+        </div>
+        <CategoryTable />
       </div>
-      <CategoryTable />
     </div>
   )
 }

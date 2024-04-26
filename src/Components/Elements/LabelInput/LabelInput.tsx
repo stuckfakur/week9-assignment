@@ -14,6 +14,7 @@ interface LabelInputProps {
   id: string
   type?: string
   placeholder?: string
+  value?: string
   error?: FieldValues | undefined
   errorMessage?: string | FieldError | Merge<FieldError, FieldErrorsImpl<any>>
   btnTitle?: string
@@ -33,6 +34,7 @@ const LabelInput: React.FC<LabelInputProps> = ({
   toggle,
   additionalRules,
   onChange,
+  ...props
 }) => {
   const infoIcon = <FontAwesomeIcon icon={faCircleInfo} />
   return (
@@ -50,9 +52,10 @@ const LabelInput: React.FC<LabelInputProps> = ({
           id={id}
           name={id}
           placeholder={placeholder}
-          className={`mt-1 block w-full rounded-md border-2 border-slate-300 px-4 py-2 shadow-sm placeholder:text-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm`}
+          className={`mt-1 block w-full rounded-md border-2 border-slate-300 px-4 py-2 shadow-sm placeholder:text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:bg-slate-300 sm:text-sm`}
           autoComplete="off"
           onChange={onChange}
+          {...props}
         />
       </div>
       {id.includes('assword') && (

@@ -25,6 +25,10 @@ const CategoryTable: React.FC = () => {
     }
   }
 
+  const handleEdit = (id: number) => {
+    navigate('/category/edit/' + id)
+  }
+
   const handleDelete = (id: number) => {
     axios
       .delete('https://library-crud-sample.vercel.app/api/category/' + id, {
@@ -47,10 +51,10 @@ const CategoryTable: React.FC = () => {
   }, [])
 
   return (
-    <table className="w-full table-auto rounded-md border text-left">
+    <table className="w-full table-auto rounded-md border text-left text-sm">
       <thead className="bg-green-100 text-slate-800">
         <tr>
-          <th className="border">Id</th>
+          <th className="border pl-2">Id</th>
           <th className="min-w-1/2 border">Nama</th>
           <th className="border">Deskripsi</th>
           <th className="border">Aktif</th>
@@ -58,23 +62,38 @@ const CategoryTable: React.FC = () => {
         </tr>
       </thead>
       <tbody>
-        {categories.map((category: any, index: number) => (
-          <tr key={index + 1}>
-            <td>{index + 1}</td>
-            <td>{category.category_name}</td>
-            <td>{category.category_description}</td>
-            <td>{category.is_active ? 'Ya' : 'Tidak'}</td>
-            <td className="flex gap-2">
-              <Button className="mb-4 bg-blue-500">Ubah</Button>
-              <Button
-                onClick={() => handleDelete(category.id)}
-                className="mb-4 bg-red-500"
-              >
-                Hapus
-              </Button>
+        {categories.length === 0 ? (
+          <tr>
+            <td colSpan={5} className="text-center">
+              Tidak ada data
             </td>
           </tr>
-        ))}
+        ) : (
+          categories.map((category: any, index: number) => (
+            <tr key={index + 1}>
+              <td className="pl-2">{index + 1}</td>
+              <td>{category.category_name}</td>
+              <td>{category.category_description}</td>
+              <td>{category.is_active ? 'Ya' : 'Tidak'}</td>
+              <td className="flex gap-2 pr-2">
+                <Button
+                  onClick={() => handleEdit(category.id)}
+                  aria="edit"
+                  className="mb-4"
+                >
+                  Ubah
+                </Button>
+                <Button
+                  onClick={() => handleDelete(category.id)}
+                  aria="delete"
+                  className="mb-4"
+                >
+                  Hapus
+                </Button>
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   )

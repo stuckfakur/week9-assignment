@@ -5,7 +5,7 @@ import RegisterLayout from '../Components/Layouts/RegisterLayouts'
 const RegisterPage: React.FC = () => {
   return (
     <>
-      <NavHeader>Register</NavHeader>
+      <NavHeader hidden>Register</NavHeader>
       <RegisterLayout />
       <FooterComponent />
     </>

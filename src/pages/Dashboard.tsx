@@ -1,10 +1,15 @@
 import React from 'react'
-import CategoryLayout from '../Components/Layouts/CategoryLayouts.tsx'
+import Tabs from '../Components/Elements/Tabs/Tabs.tsx'
+import NavHeader from '../Components/Elements/Header/Navigation.tsx'
 
 const DashboardPage: React.FC = () => {
   return (
     <>
-      <CategoryLayout />
+      <NavHeader>Dashboard</NavHeader>
+      <div className="flex h-[90vh] items-center justify-center">
+        Dashboard is under construction
+      </div>
+      <Tabs />
     </>
   )
 }

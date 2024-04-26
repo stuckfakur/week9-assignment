@@ -21,8 +21,12 @@ const Button: React.FC<ButtonProps> = ({
     switch (true) {
       case disabled:
         return 'bg-slate-400 opacity-30 text-slate-500'
-      case ariaLabel === 'btnSelect':
+      case ariaLabel === 'btnSelect' || ariaLabel === 'edit':
         return 'bg-blue-600 focus:bg-blue-800 hover:bg-blue-800'
+      case ariaLabel === 'back':
+        return 'bg-slate-600 focus:bg-slate-800 hover:bg-slate-800'
+      case ariaLabel === 'delete':
+        return 'bg-red-600 focus:bg-red-800 hover:bg-red-800'
       case type === 'button':
         return 'bg-teal-400 focus:bg-teal-800 hover:bg-teal-800'
       case type === 'submit':

@@ -6,7 +6,8 @@ import LoginPage from '../../pages/Login.tsx'
 import ProfilePage from '../../pages/Profile.tsx'
 import DashboardPage from '../../pages/Dashboard.tsx'
 import CategoryPage from '../../pages/Category.tsx'
-import CategoryAddForm from '../Fragments/FormAddCategory.tsx'
+import CategoryAddLayouts from '../Layouts/CategoryAddLayouts.tsx'
+import CategoryEditLayouts from '../Layouts/CategoryEditLayouts.tsx'
 
 export const router = Router([
   {
@@ -32,7 +33,11 @@ export const router = Router([
   },
   {
     path: '/category/create',
-    element: <CategoryAddForm />,
+    element: <CategoryAddLayouts />,
+  },
+  {
+    path: '/category/edit/:id',
+    element: <CategoryEditLayouts />,
   },
   {
     path: '/profile',

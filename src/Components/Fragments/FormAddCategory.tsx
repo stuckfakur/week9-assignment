@@ -41,8 +41,8 @@ const CategoryAddForm: React.FC = () => {
     }
   }
   return (
-    <div className="flex w-full items-center justify-center">
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex w-96 items-center justify-center">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full">
         <LabelInput
           label="Kategori"
           id="category_name"
@@ -52,7 +52,7 @@ const CategoryAddForm: React.FC = () => {
           additionalRules={register('category_name', { required: true })}
         />
         <LabelInput
-          label="Kategori"
+          label="Kategori Deskripsi"
           id="category_description"
           type="text"
           error={errors.category_description}
@@ -84,7 +84,18 @@ const CategoryAddForm: React.FC = () => {
             </div>
           </div>
         </div>
-        <Button type="submit">Tambah</Button>
+        <div className="grid grid-cols-2 gap-2">
+          <Button
+            onClick={() => navigate(-1)}
+            aria="back"
+            className="col-start-1"
+          >
+            Kembali
+          </Button>
+          <Button type="submit" className="col-start-2">
+            Tambah
+          </Button>
+        </div>
       </form>
     </div>
   )
