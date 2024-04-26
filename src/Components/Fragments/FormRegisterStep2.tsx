@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form'
 import LabelInput from '../Elements/LabelInput/LabelInput'
 import ButtonRegister from './ButtonRegister'
 
-import { handleBack, handleNext } from '../Atoms/Function/HandleNextBack'
+import { handleBack } from '../Atoms/Function/HandleNextBack'
 import { useLocalStorageRegister as UseLCR } from '../Atoms/Function/getLocalStorageRegister.tsx'
 
 interface FormRegisterStep2Props {
@@ -22,10 +22,10 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
     setValue,
   } = useForm()
 
-  UseLCR({ setValue, keys: 'formRegisterStep2' })
+  UseLCR({ setValue, keys: 'formRegister' })
 
   const onSubmit = (data: any) => {
-    UseLCR({ data, keys: 'formRegisterStep2' })
+    UseLCR({ data, keys: 'formRegister' })
     console.log(data)
     if (onNext) {
       onNext()
@@ -53,9 +53,9 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
           id="streetAddress"
           type="text"
           placeholder="Masukan alamat anda"
-          register={register}
           error={errors.streetAddress}
           errorMessage="Alamat wajib diisi"
+          additionalRules={register('streetAddress', { required: true })}
         />
       </div>
       <div>
@@ -64,9 +64,9 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
           id="city"
           type="text"
           placeholder="Masukan nama kota"
-          register={register}
           error={errors.city}
           errorMessage="Kota wajib diisi"
+          additionalRules={register('city', { required: true })}
         />
       </div>
       <div>
@@ -75,9 +75,9 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
           id="state"
           type="text"
           placeholder="Masukan nama provinsi"
-          register={register}
           error={errors.state}
           errorMessage="Provinsi wajib diisi"
+          additionalRules={register('state', { required: true })}
         />
       </div>
       <div>
@@ -86,16 +86,13 @@ const FormRegisterStep2: React.FC<FormRegisterStep2Props> = ({
           id="zipCode"
           type="text"
           placeholder="Masukan kode pos"
-          register={register}
           error={errors.zipCode}
           errorMessage="Kode pos wajib diisi"
           onChange={handlePostalCode}
+          additionalRules={register('zipCode', { required: true })}
         />
       </div>
-      <ButtonRegister
-        backClick={() => handleBack(onBack)}
-        nextClick={() => handleNext(onNext)}
-      />
+      <ButtonRegister backClick={() => handleBack(onBack)}>Next</ButtonRegister>
     </form>
   )
 }

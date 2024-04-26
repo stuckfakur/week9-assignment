@@ -14,10 +14,10 @@ const HomePages: React.FC = () => {
   }
 
   return (
-    <div className="flex h-[100vh] items-center justify-center">
-      <div className="grid gap-4 rounded-md bg-slate-200 px-4 py-2 text-center font-bold text-blue-600">
-        <p>Hello world gaes</p>
-        <p>Do you have an account ?</p>
+    <div className="flex h-[100vh] items-center justify-center bg-gradient-to-r from-green-400 to-blue-400">
+      <div className="grid w-80 gap-4 rounded-md bg-slate-200 px-4 py-2 text-center font-bold text-blue-600">
+        <img src="/src/assets/images/profile/main.png" alt="logo" />
+        <p>Do you already as a Member ?</p>
         <div className="flex gap-2">
           <Button aria="btnSelect" onClick={handleLogin} className="w-full">
             Yes

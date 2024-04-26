@@ -6,24 +6,24 @@ interface ButtonRegisterProps {
   disabled?: false
   backOff?: boolean
   nextOff?: boolean
+  children?: React.ReactNode
 }
 
-const ButtonRegister: React.FC<ButtonRegisterProps> = ({ backClick, nextClick, backOff, nextOff }) => {
+const ButtonRegister: React.FC<ButtonRegisterProps> = ({
+  backClick,
+  backOff,
+  children,
+}) => {
   return (
-    <div className="grid w-full grid-cols-12 gap-2">
-      <div className="col-span-3 col-start-1">
-        <Button type="button" className="w-full" onClick={backClick} disabled={backOff}>
+    <div className="grid w-full grid-cols-3 gap-2">
+      <div className={`${backOff ? 'hidden' : ''} col-start-1`}>
+        <Button type="button" className="w-full" onClick={backClick}>
           Back
         </Button>
       </div>
-      <div className="col-span-6 col-start-4">
+      <div className="col-start-3">
         <Button type="submit" className="w-full">
-          Submit
-        </Button>
-      </div>
-      <div className="col-span-3 col-start-10">
-        <Button type="button" className="w-full" onClick={nextClick} disabled={nextOff}>
-          Next
+          {children}
         </Button>
       </div>
     </div>

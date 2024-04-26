@@ -5,7 +5,7 @@ import LabelInput from '../Elements/LabelInput/LabelInput'
 import ButtonRegister from './ButtonRegister'
 import { handleBack } from '../Atoms/Function/HandleNextBack'
 import { useLocalStorageRegister as UseLCR } from '../Atoms/Function/getLocalStorageRegister.tsx'
-
+import axios from 'axios'
 interface FormRegisterStep3Props {
   onBack?: () => void
 }
@@ -16,48 +16,44 @@ const FormRegisterStep3: React.FC<FormRegisterStep3Props> = ({ onBack }) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm()
   const navigate = useNavigate()
   const [showPassword, setShowPassword] = useState(false)
 
-  UseLCR({ setValue, keys: 'formRegisterStep3' })
+  UseLCR({ setValue, keys: 'formRegister' })
 
   const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/
 
   const onSubmit = (data: any) => {
-    UseLCR({ data, keys: 'formRegisterStep3' })
+    UseLCR({ data, keys: 'formRegister' })
     console.log(data)
-    alert('successful create account')
-    navigate('/login')
+
+    const userData = JSON.parse(localStorage.getItem('formRegister') || '{}')
+    axios
+      .post('https://library-crud-sample.vercel.app/api/user/register', {
+        name: userData.fullname,
+        email: userData.email,
+        password: userData.password,
+      })
+      .then((response: any) => {
+        if (response.status === 200) {
+          alert('successful create account')
+          localStorage.removeItem('formRegister')
+          navigate('/login')
+        }
+      })
+      .catch((error: any) => {
+        if (error.response.status === 400) {
+          alert(error.response.data.details)
+        } else {
+          console.error(error)
+        }
+      })
   }
 
   function handlePassword() {
     setShowPassword(!showPassword)
-  }
-
-  function handleEventPassword(e: React.ChangeEvent<HTMLInputElement>) {
-    const input = e.target as HTMLInputElement
-    if (!passwordRegex.test(input.value)) {
-      input.setCustomValidity(
-        'Harus ada 1 huruf besar, 1 nomor dan min 6 karakter',
-      )
-    } else {
-      input.setCustomValidity('')
-    }
-    e.preventDefault()
-  }
-
-  function handleConfirmPassword(e: React.ChangeEvent<HTMLInputElement>) {
-    const input = e.target as HTMLInputElement
-    const password = input.form?.elements.namedItem(
-      'password',
-    ) as HTMLInputElement
-
-    if (password && input.value !== password.value) {
-      input.setCustomValidity('Password belum sesuai')
-    } else {
-      input.setCustomValidity('')
-    }
   }
 
   return (
@@ -68,9 +64,11 @@ const FormRegisterStep3: React.FC<FormRegisterStep3Props> = ({ onBack }) => {
           id="username"
           type="text"
           placeholder="Masukan username"
-          register={register}
           error={errors.username}
           errorMessage="Username wajib diisi"
+          additionalRules={register('username', {
+            required: 'Username wajib diisi',
+          })}
         />
       </div>
       <div>
@@ -81,11 +79,15 @@ const FormRegisterStep3: React.FC<FormRegisterStep3Props> = ({ onBack }) => {
           placeholder="Masukan password"
           btnTitle={showPassword ? 'Hide' : 'Show'}
           toggle={handlePassword}
-          register={register}
-          onChange={handleEventPassword}
+          additionalRules={register('password', {
+            required: 'Password wajib diisi',
+            pattern: {
+              value: passwordRegex,
+              message:
+                'Password harus ada 1 huruf besar, 1 nomor dan min 6 karakter',
+            },
+          })}
           error={errors.password}
-          errorMessage={errors.password && errors.password.message}
-          additionalErrorMsg="Harus ada 1 huruf besar, 1 nomor dan min 6 karakter"
         />
       </div>
       <div>
@@ -96,16 +98,22 @@ const FormRegisterStep3: React.FC<FormRegisterStep3Props> = ({ onBack }) => {
           placeholder="Masukan konfirmasi password"
           btnTitle={showPassword ? 'Hide' : 'Show'}
           toggle={handlePassword}
-          register={register}
-          onChange={handleConfirmPassword}
           error={errors.confirmPassword}
-          errorMessage={
-            errors.confirmPassword && errors.confirmPassword.message
-          }
-          additionalErrorMsg="Password belum sesuai"
+          errorMessage="Konfirmasi password wajib diisi"
+          additionalRules={register('confirmPassword', {
+            required: 'Password konfirmasi wajib diisi',
+            validate: (value) => {
+              const password = getValues('password')
+              if (value !== password) {
+                return 'Passwords tidak sama'
+              }
+            },
+          })}
         />
       </div>
-      <ButtonRegister backClick={() => handleBack(onBack)} nextOff />
+      <ButtonRegister backClick={() => handleBack(onBack)}>
+        Submit
+      </ButtonRegister>
     </form>
   )
 }

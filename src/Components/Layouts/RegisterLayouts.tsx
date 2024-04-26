@@ -21,13 +21,24 @@ const RegisterLayout: React.FC<RegisterLayoutProps> = () => {
 
   return (
     <>
-      <div className="mb-12 mt-4 px-4">
-        <TimelineRegister currentStep={currentStep} />
-        <div className="mt-4 rounded-md bg-slate-200 p-4">
-          <h1 className="mb-3 border-b-2 pb-2 text-center text-2xl font-bold">Register Step {currentStep}</h1>
-          {currentStep === 1 && <FormRegisterStep1 onNext={handleStepChange} />}
-          {currentStep === 2 && <FormRegisterStep2 onNext={handleStepChange} onBack={handleBack} />}
-          {currentStep === 3 && <FormRegisterStep3 onBack={handleBack} />}
+      <div className="mb-12 mt-4 flex items-center justify-center px-4">
+        <div className="w-96">
+          <TimelineRegister currentStep={currentStep} />
+          <div className="mt-4 rounded-md bg-slate-200 p-4">
+            <h1 className="mb-3 border-b-2 pb-2 text-center text-2xl font-bold">
+              Register Step {currentStep}
+            </h1>
+            {currentStep === 1 && (
+              <FormRegisterStep1 onNext={handleStepChange} />
+            )}
+            {currentStep === 2 && (
+              <FormRegisterStep2
+                onNext={handleStepChange}
+                onBack={handleBack}
+              />
+            )}
+            {currentStep === 3 && <FormRegisterStep3 onBack={handleBack} />}
+          </div>
         </div>
       </div>
     </>

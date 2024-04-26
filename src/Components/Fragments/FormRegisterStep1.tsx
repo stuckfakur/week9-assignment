@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import LabelInput from '../Elements/LabelInput/LabelInput'
 import ButtonRegister from './ButtonRegister'
 
-import { handleNext } from '../Atoms/Function/HandleNextBack'
 import { useLocalStorageRegister as UseLCR } from '../Atoms/Function/getLocalStorageRegister.tsx'
 
 interface FormRegisterStep1Props {
@@ -18,24 +17,14 @@ const FormRegisterStep1: React.FC<FormRegisterStep1Props> = ({ onNext }) => {
     setValue,
   } = useForm()
 
-  UseLCR({ setValue, keys: 'formRegistrasiStep1' })
+  UseLCR({ setValue, keys: 'formRegister' })
   const patternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 
   const onSubmit = (data: any) => {
-    UseLCR({ data, keys: 'formRegistrasiStep1' })
+    UseLCR({ data, keys: 'formRegister' })
     console.log(data)
     if (onNext) {
       onNext()
-    }
-  }
-
-  function handlePattern(e: React.ChangeEvent<HTMLInputElement>) {
-    const input = e.target as HTMLInputElement
-    console.log(input.value)
-    if (!patternEmail.test(input.value)) {
-      input.setCustomValidity('Penulisan email belum sesuai')
-    } else {
-      input.setCustomValidity('')
     }
   }
 
@@ -47,9 +36,15 @@ const FormRegisterStep1: React.FC<FormRegisterStep1Props> = ({ onNext }) => {
           id="fullname"
           type="text"
           placeholder="Masukan nama anda"
-          register={register}
           error={errors.fullname}
           errorMessage="Nama lengkap wajib diisi"
+          additionalRules={register('fullname', {
+            required: true,
+            pattern: {
+              value: /^[a-zA-Z ]{3,16}/,
+              message: 'Minimal 3 karakter dan maksimal 16 karakter',
+            },
+          })}
         />
       </div>
       <div>
@@ -58,10 +53,15 @@ const FormRegisterStep1: React.FC<FormRegisterStep1Props> = ({ onNext }) => {
           id="email"
           type="text"
           placeholder="Masukan email anda"
-          register={register}
           error={errors.email}
           errorMessage="Email wajib diisi"
-          onChange={handlePattern}
+          additionalRules={register('email', {
+            required: true,
+            pattern: {
+              value: patternEmail,
+              message: 'Penulisan email harus sesuai',
+            },
+          })}
         />
       </div>
       <div>
@@ -69,12 +69,12 @@ const FormRegisterStep1: React.FC<FormRegisterStep1Props> = ({ onNext }) => {
           label="Tanggal Lahir"
           id="dob"
           type="date"
-          register={register}
           error={errors.dob}
           errorMessage="Tanggal lahir wajib diisi"
+          additionalRules={register('dob', { required: true })}
         />
       </div>
-      <ButtonRegister nextClick={() => handleNext(onNext)} backOff />
+      <ButtonRegister backOff>Next</ButtonRegister>
     </form>
   )
 }
