@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const CategoryTable: React.FC = () => {
   const [categories, setCategories] = useState([])
   const navigate = useNavigate()
+
   const getCategories = async () => {
     const token = localStorage.getItem('token')
     try {
@@ -26,24 +27,27 @@ const CategoryTable: React.FC = () => {
   }
 
   const handleEdit = (id: number) => {
-    navigate('/category/edit/' + id)
+    navigate(`/category/edit/${id}`)
   }
 
   const handleDelete = (id: number) => {
-    axios
-      .delete('https://library-crud-sample.vercel.app/api/category/' + id, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-      .then((response) => {
-        if (response.status === 200) {
-          alert('success deleted')
-          window.location.reload()
-          navigate('/categories')
-        }
-      })
-      .catch((error) => console.error(error))
+    const confirm = window.confirm('Are you sure?')
+    if (confirm) {
+      axios
+        .delete(`https://library-crud-sample.vercel.app/api/category/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            alert('success deleted')
+            window.location.reload()
+            navigate('/categories')
+          }
+        })
+        .catch((error) => console.error(error))
+    }
   }
 
   useEffect(() => {

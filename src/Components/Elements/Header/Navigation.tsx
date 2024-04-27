@@ -40,11 +40,11 @@ const NavName: React.FC<NavHeaderProps> = ({ hidden }) => {
   }
   return (
     <div
-      className={`${hidden ? 'hidden' : ''} fixed right-0 top-0 flex items-center gap-2 p-3 text-slate-600 shadow hover:text-black`}
+      className={`${hidden ? 'hidden' : ''} fixed right-0 top-0 flex items-center gap-2 p-3 text-slate-600 hover:text-black`}
     >
       {users ? users.name : 'none'}
       <button className="group relative flex aspect-square w-6 items-center justify-center rounded-full bg-slate-400 text-white">
-        {users ? users.name.slice(0, 1) : 'A'}
+        {users && users.name ? users.name.slice(0, 1) : 'A'}
         <span className="hidden group-focus:block">
           <span className="absolute right-0 top-8 flex h-16 w-36 items-center justify-center rounded-md bg-white shadow outline outline-2 outline-teal-400">
             <a

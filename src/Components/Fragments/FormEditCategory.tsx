@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import LabelInput from '../Elements/LabelInput/LabelInput.tsx'
 import { useForm } from 'react-hook-form'
 import Button from '../Elements/Button/Button.tsx'
@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const CategoryEditForm: React.FC = () => {
+  const [loading, setLoading] = useState(false)
   const { id } = useParams()
   const navigate = useNavigate()
   const {
@@ -33,6 +34,7 @@ const CategoryEditForm: React.FC = () => {
   }, [id, setValue])
 
   const onSubmit = (data: any) => {
+    setLoading(true)
     console.log(data)
     const token = localStorage.getItem('token')
 
@@ -57,6 +59,7 @@ const CategoryEditForm: React.FC = () => {
           navigate('/categories')
         })
         .catch((e) => console.error(e))
+        .finally(() => setLoading(false))
     }
   }
   return (
@@ -103,7 +106,7 @@ const CategoryEditForm: React.FC = () => {
                   type="radio"
                   id="is_active"
                   value="true"
-                  {...register('is_active')}
+                  {...register('is_active', { required: true })}
                 />
                 <label htmlFor="is_active">Aktif</label>
               </span>
@@ -112,7 +115,7 @@ const CategoryEditForm: React.FC = () => {
                   type="radio"
                   id="is_active"
                   value="true"
-                  {...register('is_active')}
+                  {...register('is_active', { required: true })}
                 />
                 <label htmlFor="is_active">Tidak</label>
               </span>
@@ -120,10 +123,16 @@ const CategoryEditForm: React.FC = () => {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <Button onClick={() => navigate('/categories')} aria="back">
+          <Button
+            onClick={() => navigate('/categories')}
+            aria="back"
+            disabled={loading}
+          >
             Kembali
           </Button>
-          <Button type="submit">Ubah</Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Loading...' : 'Simpan'}
+          </Button>
         </div>
       </form>
     </div>

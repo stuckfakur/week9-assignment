@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import LabelInput from '../Elements/LabelInput/LabelInput.tsx'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ButtonRegister from './ButtonRegister.tsx'
 import { useNavigate } from 'react-router-dom'
 
 const FormLogin: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
   const {
     register,
     handleSubmit,
@@ -14,7 +15,30 @@ const FormLogin: React.FC = () => {
   } = useForm()
 
   const navigate = useNavigate()
+
+  const getUsers = () => {
+    const token = localStorage.getItem('token')
+    if (token) {
+      axios
+        .get('https://library-crud-sample.vercel.app/api/user/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          localStorage.setItem(
+            'users',
+            JSON.stringify({
+              name: response.data.name,
+              email: response.data.email,
+            }),
+          )
+        })
+        .catch((error) => console.error(error))
+    }
+  }
   const onSubmit = async (data: any) => {
+    setLoading(true)
     console.log(data)
 
     axios
@@ -26,6 +50,7 @@ const FormLogin: React.FC = () => {
         if (response.status === 200) {
           alert('successful login')
           localStorage.setItem('token', response.data.token)
+          getUsers()
           navigate('/dashboard')
         }
       })
@@ -34,7 +59,11 @@ const FormLogin: React.FC = () => {
           alert('invalid email or password')
         }
       })
+      .finally(() => setLoading(false))
   }
+  useEffect(() => {
+    getUsers()
+  }, [])
 
   const handlePassword = () => {
     setShowPassword(!showPassword)
@@ -67,7 +96,9 @@ const FormLogin: React.FC = () => {
           required: 'Password wajib diisi',
         })}
       />
-      <ButtonRegister backOff>Login</ButtonRegister>
+      <ButtonRegister backOff disabled={loading}>
+        {loading ? 'Loading ...' : 'Login'}
+      </ButtonRegister>
     </form>
   )
 }

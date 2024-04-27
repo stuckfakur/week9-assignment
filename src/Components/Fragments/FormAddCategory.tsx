@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import LabelInput from '../Elements/LabelInput/LabelInput.tsx'
 import { useForm } from 'react-hook-form'
 import Button from '../Elements/Button/Button.tsx'
@@ -11,16 +11,16 @@ const CategoryAddForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
-
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = async (data: any) => {
+    setLoading(true)
     const token = localStorage.getItem('token')
 
     if (token) {
-      axios
-        .post(
+      try {
+        await axios.post(
           'https://library-crud-sample.vercel.app/api/category/create',
           {
             category_name: data.category_name,
@@ -33,13 +33,16 @@ const CategoryAddForm: React.FC = () => {
             },
           },
         )
-        .then(() => {
-          alert('Category added successfully')
-          navigate('/categories')
-        })
-        .catch((e) => console.error(e))
+        alert('Category added successfully')
+        navigate('/categories')
+      } catch (error) {
+        console.error(error)
+      } finally {
+        setLoading(false)
+      }
     }
   }
+
   return (
     <div className="flex w-96 items-center justify-center">
       <form onSubmit={handleSubmit(onSubmit)} className="w-full">
@@ -66,20 +69,20 @@ const CategoryAddForm: React.FC = () => {
               <span>
                 <input
                   type="radio"
-                  id="is_active"
+                  id="is_active_true"
                   value="true"
                   {...register('is_active')}
                 />
-                <label htmlFor="is_active">Aktif</label>
+                <label htmlFor="is_active_true">Aktif</label>
               </span>
               <span>
                 <input
                   type="radio"
-                  id="is_active"
-                  value="true"
+                  id="is_active_false"
+                  value="false"
                   {...register('is_active')}
                 />
-                <label htmlFor="is_active">Tidak</label>
+                <label htmlFor="is_active_false">Tidak</label>
               </span>
             </div>
           </div>
@@ -92,8 +95,8 @@ const CategoryAddForm: React.FC = () => {
           >
             Kembali
           </Button>
-          <Button type="submit" className="col-start-2">
-            Tambah
+          <Button type="submit" className="col-start-2" disabled={loading}>
+            {loading ? 'Loading...' : 'Tambah'}
           </Button>
         </div>
       </form>

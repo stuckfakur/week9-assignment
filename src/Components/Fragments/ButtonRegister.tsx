@@ -3,7 +3,7 @@ import Button from '../Elements/Button/Button'
 interface ButtonRegisterProps {
   backClick?: () => void
   nextClick?: () => void
-  disabled?: false
+  disabled?: boolean
   backOff?: boolean
   nextOff?: boolean
   children?: React.ReactNode
@@ -13,6 +13,7 @@ const ButtonRegister: React.FC<ButtonRegisterProps> = ({
   backClick,
   backOff,
   children,
+  disabled = false,
 }) => {
   return (
     <div className="grid w-full grid-cols-3 gap-2">
@@ -22,7 +23,7 @@ const ButtonRegister: React.FC<ButtonRegisterProps> = ({
         </Button>
       </div>
       <div className="col-start-3">
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={disabled}>
           {children}
         </Button>
       </div>
